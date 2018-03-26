@@ -1,1 +1,33 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+    margin: 10px;
+    font-size: 12px;
+}
+
+label, button, input {
+    margin: 5px;
+}
+
+label {
+    width: 73px;
+}
+
+input {
+    width: 60px;
+}
+
+input.w240 {
+    width: 240px;
+}
+
+span.bold {
+    font-weight: bold;
+}
+
+div.left20 {
+    margin-left: 20px;
+}
+
+button {
+    width: 240px;
+}
+

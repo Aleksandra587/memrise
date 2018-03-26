@@ -1,0 +1,93 @@
+<div *ngIf="this.menu;else content">
+  <button (click)="asAdmin()" class="btn btn-primary">Manage courses</button>
+  <br>
+  <button (click)="asUser()" class="btn btn-primary">Take the course</button>
+</div>
+<ng-template #content>
+  <div *ngIf="this.adminMode">
+    <button (click)="toggleAdding()" class="btn btn-primary">
+      Add new course</button>
+
+    <form *ngIf="this.adding">
+      <div>
+        <label for="name">Course name: </label>
+        <input type="text" #name>
+      </div>
+      <button (click)="add(name.value)" class="btn btn-info">Add</button>
+    </form>
+
+    <div *ngFor="let course of courses" class="left20">
+      <button (click)="showCourseDetails(course)" class="btn btn-info">{{course.name}}</button>
+      <ul *ngIf="course.showDetails">
+        <li *ngFor="let lesson of course.lessons" class="left20"> {{lesson.name}}</li>
+      </ul>
+      <form *ngIf="course.showDetails">
+        <br>
+        <button (click)="showNewLessonDetails(course)" class="btn btn-primary">Add new lesson</button>
+        <br>
+        <button (click)="delete(course)" class="btn btn-danger">Delete</button>
+      </form>
+
+      <form *ngIf="course.showNewLessonDetails">
+        <div>
+          <label for="name">Lesson name: </label>
+          <input type="text" #name>
+          <br>
+          <span class="bold">1.</span>
+          <input type="text" value="word" #word1>
+          <input type="text" value="correct_answer, answer2, answer3, answer4" class="w240" #answers1>
+          <br>
+          <span class="bold">2.</span>
+          <input type="text" #word2>
+          <input type="text" class="w240" #answers2>
+          <br>
+          <span class="bold">3.</span>
+          <input type="text" #word3>
+          <input type="text" class="w240" #answers3>
+          <br>
+          <span class="bold">4.</span>
+          <input type="text" #word4>
+          <input type="text" class="w240" #answers4>
+          <br>
+          <span class="bold">5.</span>
+          <input type="text" #word5>
+          <input type="text" class="w240" #answers5>
+          <br>
+        </div>
+        <button (click)="addNewLesson(course, name.value, word1.value, answers1.value, word2.value, answers2.value, word3.value, answers3.value, word4.value, answers4.value, word5.value, answers5.value)"
+          class="btn btn-primary">Add</button>
+      </form>
+      <br>
+    </div>
+  </div>
+  <div *ngIf="this.userMode">
+    <button (click)="toggleAdding()" class="btn btn-primary">Take the course</button>
+    <div *ngFor="let course of courses" class="left20">
+      <button (click)="showLessons(course)" class="btn btn-info">{{course.name}}</button>
+      <div *ngIf="course.showLessons">
+        <div *ngFor="let lesson of course.lessons" class="left20">
+          <button (click)="takeLesson(lesson)" class="btn btn-primary">{{lesson.name}} {{lesson.result}}</button>
+          <div *ngIf="lesson.showQuestionsAndAnswers">
+            <ul>
+              <li *ngFor="let question of lesson.questions; let i = index">
+                <span class="bold">{{question.word}}</span>
+                <form action="">
+                  <input type="radio" name="{{question.word}}" value="1" (click)="handleClick(i, 0);">{{question.answers[0]}}
+                  <br>
+                  <input type="radio" name="{{question.word}}" value="2" (click)="handleClick(i, 1);">{{question.answers[1]}}
+                  <br>
+                  <input type="radio" name="{{question.word}}" value="3" (click)="handleClick(i, 2);">{{question.answers[2]}}
+                  <br>
+                  <input type="radio" name="{{question.word}}" value="4" (click)="handleClick(i, 3);">{{question.answers[3]}}
+                  <br>
+                </form>
+              </li>
+            </ul>
+            <button (click)="checkResults(lesson)" class="btn btn-primary">Check results</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button (click)="backToMenu()" class="btn btn-primary">Back to menu</button>
+</ng-template>
